@@ -1,0 +1,860 @@
+{% raw %}{% endraw %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Curriculum → Classroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#f2f5fb; --bg1:#ffffff; --panel:#ffffff; --panel2:#f4f7fd;
+  --line:#e2e8f4; --line2:#c7d2e6;
+  --tx:#111c38; --tx2:#5a6a88; --tx3:#8b98b0;
+  --c1:#22d3ee; --c2:#8b5cf6; --c3:#f472b6;
+  --grad:linear-gradient(120deg,var(--c1),var(--c2) 60%,var(--c3));
+  --green:#059669; --amber:#b45309; --red:#dc2626; --blue:#2563eb;
+  --r:16px; --rs:10px;
+  --glow:0 0 0 1px rgba(34,211,238,.45),0 8px 24px rgba(139,92,246,.10);
+}
+*{box-sizing:border-box} html,body{margin:0;padding:0}
+body{background:var(--bg0);color:var(--tx);font:14.5px/1.5 Inter,system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(60vw 40vh at 15% -5%,rgba(139,92,246,.10),transparent 60%),
+  radial-gradient(50vw 40vh at 95% 10%,rgba(34,211,238,.10),transparent 60%),
+  radial-gradient(40vw 50vh at 60% 110%,rgba(244,114,182,.08),transparent 60%),var(--bg0)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;background-image:
+  linear-gradient(rgba(28,43,74,.045) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(28,43,74,.045) 1px,transparent 1px);background-size:44px 44px}
+h1,h2,h3,h4,.display{font-family:'Space Grotesk',Inter,sans-serif}
+a{color:var(--c1)}
+::selection{background:rgba(139,92,246,.22)}
+.shell{display:flex;min-height:100vh}
+/* ---------- rail ---------- */
+.rail{width:236px;flex-shrink:0;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+  padding:20px 14px;border-right:1px solid var(--line);background:rgba(255,255,255,.82);backdrop-filter:blur(14px);box-shadow:4px 0 24px rgba(28,43,74,.05)}
+.brand{display:flex;gap:11px;align-items:center;padding:2px 8px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand .dot{width:40px;height:40px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 24px rgba(139,92,246,.45);overflow:hidden;flex-shrink:0}
+.brand .dot img{width:100%;height:100%;object-fit:cover}
+.brand .t1{font-family:'Space Grotesk';font-weight:700;font-size:15px;line-height:1.15}
+.brand .t2{font-size:11px;color:var(--tx2)}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nbtn{display:flex;align-items:center;gap:11px;border:1px solid transparent;background:transparent;color:var(--tx2);
+  font:600 13.5px Inter;padding:10px 12px;border-radius:12px;cursor:pointer;text-align:left;width:100%;
+  transition:all .18s ease;position:relative;overflow:hidden}
+.nbtn:hover{color:var(--tx);background:var(--panel);border-color:var(--line)}
+.nbtn.on{color:#ffffff;background:var(--grad);box-shadow:0 6px 22px rgba(139,92,246,.35);font-weight:700}
+.nbtn .bdg{margin-left:auto;font-size:10.5px;font-weight:700;background:rgba(255,255,255,.14);border-radius:999px;padding:2px 8px}
+.nbtn.on .bdg{background:rgba(0,0,0,.22);color:#fff}
+.rolechip{margin-top:auto;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel);font-size:12px;color:var(--tx2)}
+.rolechip b{color:var(--tx);display:block;font-size:12.5px}
+.rolechip .pill{display:inline-block;margin-top:6px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.main{flex:1;min-width:0;padding:28px 32px 80px}
+.head h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em}
+.head p{margin:5px 0 0;color:var(--tx2);font-size:13.5px}
+.head{margin-bottom:22px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+@media(max-width:860px){.shell{flex-direction:column}
+  .rail{width:100%;height:auto;position:static;flex-direction:column;padding:12px}
+  .nav{flex-direction:row;overflow-x:auto;padding-bottom:8px}.nbtn{flex-shrink:0}
+  .rolechip{display:none}.main{padding:18px 14px 80px}}
+/* ---------- primitives ---------- */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;
+  backdrop-filter:blur(10px);transition:border-color .2s}
+.panel:hover{border-color:var(--line2)}
+.panel h2{margin:0 0 14px;font-size:16px;display:flex;gap:9px;align-items:center}
+.grid2{display:grid;grid-template-columns:400px 1fr;gap:22px;align-items:start}
+@media(max-width:1060px){.grid2{grid-template-columns:1fr}}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:#ffffff;border:1px solid var(--line2);
+  border-radius:var(--rs);padding:10px 12px;color:var(--tx);font:inherit;transition:all .18s}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:rgba(148,163,184,.5)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
+.field textarea{min-height:100px;resize:vertical}
+.field select option{background:var(--bg1)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:11px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:var(--panel2);color:var(--tx);
+  border-radius:var(--rs);padding:8px 15px;font:600 12.5px Inter;cursor:pointer;transition:all .18s;text-decoration:none;position:relative}
+.btn:hover{border-color:var(--c1);color:var(--c1);transform:translateY(-1px);box-shadow:0 6px 18px rgba(34,211,238,.15)}
+.btn:active{transform:translateY(0)}
+.btn.primary{background:var(--grad);border:none;color:#ffffff;font-weight:700;box-shadow:0 6px 20px rgba(139,92,246,.35)}
+.btn.primary:hover{color:#ffffff;filter:brightness(1.12);box-shadow:0 10px 28px rgba(139,92,246,.5)}
+.btn.danger{color:var(--red)}.btn.danger:hover{border-color:var(--red);box-shadow:0 6px 18px rgba(220,38,38,.10)}
+.btn:disabled{opacity:.45;cursor:not-allowed;pointer-events:none}
+.btn.go{width:100%;justify-content:center;padding:13px;font-size:14px;border-radius:12px}
+:is(.btn,.nbtn,.tab):focus-visible{outline:2px solid var(--c3);outline-offset:2px}
+.hint{font-size:12.5px;color:var(--tx2);margin-top:9px;line-height:1.55}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  border-radius:999px;padding:3px 10px;border:1px solid transparent}
+.chip.green{background:rgba(5,150,105,.12);color:var(--green)} .chip.amber{background:rgba(180,83,9,.12);color:var(--amber)}
+.chip.red{background:rgba(220,38,38,.10);color:var(--red)} .chip.blue{background:rgba(37,99,235,.12);color:var(--blue)}
+.chip.grad{background:var(--grad);color:#ffffff}
+.pickrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.pick{border:1px solid var(--line2);background:transparent;color:var(--tx2);border-radius:999px;padding:7px 15px;
+  font:600 12.5px Inter;cursor:pointer;transition:all .18s}
+.pick:hover{border-color:var(--c1);color:var(--c1)}
+.pick.on{background:var(--grad);border-color:transparent;color:#ffffff;font-weight:700;box-shadow:0 4px 14px rgba(139,92,246,.35)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--tx2);border-radius:10px;padding:8px 15px;
+  font:600 13px Inter;cursor:pointer;display:flex;gap:8px;align-items:center;transition:all .18s}
+.tab:hover{color:var(--tx);border-color:var(--line2)}
+.tab.on{color:var(--tx);border-color:transparent;background:linear-gradient(var(--bg1),var(--bg1)) padding-box,var(--grad) border-box;
+  border:1.5px solid transparent;box-shadow:var(--glow)}
+.dot{width:8px;height:8px;border-radius:50%}.dot.q{background:var(--tx3)}.dot.l{background:var(--amber);animation:pulse 1s infinite}
+.dot.d{background:var(--green)}.dot.e{background:var(--red)}
+@keyframes pulse{50%{opacity:.25}}
+.empty{border:1.5px dashed var(--line2);border-radius:var(--r);padding:54px 26px;text-align:center;color:var(--tx2)}
+.empty .big{font-family:'Space Grotesk';font-size:19px;color:var(--tx);margin:10px 0 6px}
+.statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden;transition:all .2s}
+.stat:hover{transform:translateY(-2px);border-color:var(--line2);box-shadow:0 10px 26px rgba(28,43,74,.12)}
+.stat::before{content:"";position:absolute;inset:0 0 auto 0;height:2.5px;background:var(--grad);opacity:.85}
+.stat .n{font-family:'Space Grotesk';font-weight:700;font-size:25px;line-height:1.1}
+.stat .l{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--tx3);margin-top:4px}
+.stat .s{font-size:11.5px;color:var(--tx2);margin-top:4px}
+.stat.red .n{color:var(--red)}.stat.amber .n{color:var(--amber)}.stat.blue .n{color:var(--blue)}.stat.green .n{color:var(--green)}
+.chartcard h3{margin:0 0 10px;font-size:14px;color:var(--tx2);font-weight:600}
+.chartgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.skel{height:13px;border-radius:6px;margin-top:14px;background:linear-gradient(90deg,rgba(28,43,74,.07) 25%,rgba(28,43,74,.14) 45%,rgba(28,43,74,.07) 65%);
+  background-size:200% 100%;animation:sh 1.3s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.skel,.dot.l{animation:none}}
+/* paper: rendered documents keep the exercise-book soul, re-lit for dark */
+.page{background:#fbf9f2;color:#1c2b4a;border-radius:12px;padding:26px 28px 34px 62px;position:relative;min-height:300px;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 27px,#dfe6f0 27px 28px);line-height:28px;
+  box-shadow:0 14px 44px rgba(28,43,74,.16)}
+.page::before{content:"";position:absolute;top:0;bottom:0;left:44px;width:1.5px;background:#c0392b;opacity:.7}
+.lh{display:flex;gap:13px;align-items:center;border-bottom:3px double #24513f;padding-bottom:11px;margin-bottom:14px;background:#fbf9f2}
+.lh img{width:50px;height:50px;object-fit:contain}
+.lh .n{font-family:'Space Grotesk';font-weight:700;font-size:19px}
+.lh .s{font-size:12px;color:#5a6a88}
+.lh .d{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.md h2{font-size:18px;margin:28px 0 0;font-family:'Space Grotesk'}
+.md h3{font-size:15.5px;margin:28px 0 0;font-family:'Space Grotesk'}
+.md p{margin:0}.md ul,.md ol{margin:0;padding-left:22px}.md li{margin:0}
+.md table{border-collapse:collapse;width:100%;font-size:13px;margin:14px 0;background:#fff;line-height:1.5}
+.md th,.md td{border:1px solid #dde3ec;padding:7px 10px;text-align:left;vertical-align:top}
+.md th{background:#eef2f8;font-weight:700}
+.md .svgbox{margin:14px 0;background:#fff;border:1px solid #dde3ec;border-radius:8px;padding:12px;line-height:0}
+.md .svgbox svg{max-width:100%;height:auto}
+.md pre{background:#f1f4f9;border:1px solid #dde3ec;border-radius:6px;padding:10px;font-size:12.5px;overflow-x:auto;line-height:1.5}
+/* cards & lists */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:11px;cursor:pointer;transition:all .18s}
+.card:hover{border-color:var(--c2);transform:translateY(-2px);box-shadow:0 12px 28px rgba(139,92,246,.16)}
+.card h3{margin:0 0 4px;font-size:15.5px}
+.card .m{font-size:12.5px;color:var(--tx2)}
+.card .right{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.card.flex{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.termhead{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,rgba(34,211,238,.10),rgba(139,92,246,.10));
+  border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;cursor:pointer;margin:18px 0 10px;transition:all .18s}
+.termhead:hover{border-color:var(--line2)} .termhead:first-of-type{margin-top:0}
+.termhead .t{font-family:'Space Grotesk';font-weight:700;font-size:15.5px}
+.termhead .bdg{margin-left:auto;font-size:11px;font-weight:700;background:var(--panel2);border-radius:999px;padding:3px 10px;color:var(--tx2)}
+.termhead .chev{transition:transform .2s;display:inline-flex}.termhead.closed .chev{transform:rotate(-90deg)}
+.weekblk{margin:0 0 12px 8px;border-left:2px solid var(--line2);padding-left:16px}
+.weektitle{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--tx3);margin:10px 0 8px}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.mat{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--rs);padding:9px 12px;margin-bottom:7px;background:var(--panel)}
+.mat .nm{font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+/* timetable */
+.ttwrap{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.tt{border-collapse:separate;border-spacing:6px;width:100%;min-width:760px}
+.tt th{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);padding:4px}
+.tt .time{font-size:11px;color:var(--tx3);white-space:nowrap;text-align:right;padding-right:6px}
+.tt .time input{width:56px;background:transparent;border:1px solid transparent;border-radius:6px;color:var(--tx2);font:11px Inter;text-align:center;padding:2px}
+.tt .time input:hover{border-color:var(--line2)} .tt .time input:focus{outline:none;border-color:var(--c1);background:#ffffff}
+.slot{border:1.5px dashed var(--line);border-radius:11px;min-width:112px;height:60px;cursor:pointer;vertical-align:top;padding:0;transition:all .15s;background:#fbfcff}
+.slot:hover{border-color:var(--c1);box-shadow:0 0 14px rgba(34,211,238,.28)}
+.slot.filled{border-style:solid;border-color:transparent}
+.slot.sel{outline:2px solid var(--c3);outline-offset:1px}
+.slot .in{width:100%;height:100%;border-radius:10px;padding:7px 9px;text-align:left;font-size:11.5px;line-height:1.3;overflow:hidden}
+.slot .in .s{font-weight:700;font-size:12px}
+.slot .in .t{opacity:.85;display:flex;gap:5px;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+/* calendar */
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.caldow{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);text-align:center;padding:6px 0}
+.calcell{background:var(--panel);border:1px solid var(--line);border-radius:10px;min-height:88px;padding:6px 8px;font-size:12px;transition:all .15s}
+.calcell:hover{border-color:var(--line2)} .calcell.blank{background:transparent;border-color:transparent}
+.calcell.today{border-color:var(--c1);box-shadow:var(--glow)}
+.caldn{font-weight:700;color:var(--tx3);font-size:11px;margin-bottom:4px}
+.caltopic{border-radius:7px;padding:4px 8px;margin-bottom:4px;font-weight:600;cursor:pointer;font-size:11px;line-height:1.35;transition:all .12s}
+.caltopic:hover{transform:translateY(-1px)}
+.caltopic.p{background:rgba(180,83,9,.12);color:var(--amber)} .caltopic.c{background:rgba(5,150,105,.12);color:var(--green);text-decoration:line-through}
+.caltopic.o{background:rgba(220,38,38,.10);color:var(--red)}
+.toaststack{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:99;align-items:center;pointer-events:none}
+.toast{background:#111c38;border:1px solid #111c38;color:#fff;border-radius:999px;padding:10px 20px;font:600 13px Inter;
+  box-shadow:0 10px 30px rgba(28,43,74,.3);animation:tin .25s ease;backdrop-filter:blur(8px)}
+.toast.err{background:var(--red);border-color:var(--red);color:#fff}
+.toast.ok{border-color:rgba(52,211,153,.5)}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+svg.icn{width:17px;height:17px;flex-shrink:0}
+.bucket{display:flex;align-items:center;gap:9px;margin:20px 0 9px;font-family:'Space Grotesk';font-weight:700;font-size:15px}
+.crumb{display:flex;gap:8px;align-items:center;color:var(--tx2);font-size:12.5px;margin-bottom:14px;flex-wrap:wrap}
+.crumb a{color:var(--tx2);text-decoration:none}.crumb a:hover{color:var(--c1)}
+.crumb .sep{color:var(--tx3)}
+</style>
+
+<style id="uix2">
+/* ============ UI/UX polish layer ============ */
+/* headings: eyebrow + gradient underline */
+.eyebrow{font:700 10.5px Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--c2);margin-bottom:6px}
+.head h1{letter-spacing:-.015em}
+.head h1::after{content:"";display:block;width:46px;height:4px;border-radius:99px;background:var(--grad);margin-top:9px}
+/* view entrance (staggered) */
+#mainview>*{animation:rise .4s cubic-bezier(.22,.9,.3,1) both}
+#mainview>*:nth-child(2){animation-delay:.05s}#mainview>*:nth-child(3){animation-delay:.1s}
+#mainview>*:nth-child(4){animation-delay:.15s}#mainview>*:nth-child(5){animation-delay:.2s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* sidebar refinements */
+.rail{border-right:1px solid #e8edf7}
+.nbtn{transition:all .2s cubic-bezier(.22,.9,.3,1)}
+.nbtn:hover{transform:translateX(3px)}
+.nbtn svg{opacity:.8}.nbtn.on svg{opacity:1}
+.brand .dot{box-shadow:0 6px 20px rgba(139,92,246,.35)}
+.rolechip{display:flex;gap:10px;align-items:center}
+.rolechip::before{content:attr(data-init);width:34px;height:34px;border-radius:10px;background:var(--grad);
+  color:#fff;font:700 12px 'Space Grotesk';display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* buttons: sheen sweep on primary */
+.btn.primary{overflow:hidden}
+.btn.primary::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .45s ease}
+.btn.primary:hover::after{left:125%}
+.btn{will-change:transform}
+/* stat cards: icon bubble + depth */
+.stat{padding-right:56px}
+.stat .ico{position:absolute;top:13px;right:13px;width:34px;height:34px;border-radius:11px;
+  background:linear-gradient(135deg,rgba(34,211,238,.14),rgba(139,92,246,.16));color:var(--c2);
+  display:flex;align-items:center;justify-content:center}
+.stat.red .ico{background:rgba(220,38,38,.10);color:var(--red)}
+.stat.amber .ico{background:rgba(180,83,9,.10);color:var(--amber)}
+.stat.blue .ico{background:rgba(37,99,235,.10);color:var(--blue)}
+.stat.green .ico{background:rgba(5,150,105,.10);color:var(--green)}
+/* chart cards */
+.chartcard{position:relative;overflow:hidden}
+.chartcard::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--grad);opacity:.7}
+.chartcard h3{padding-left:6px}
+.chartcard:hover{box-shadow:0 14px 36px rgba(28,43,74,.10)}
+/* cards */
+.card{position:relative}
+.card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;border-radius:3px;background:var(--grad);opacity:0;transition:opacity .18s}
+.card:hover::before{opacity:.9}
+/* tabs -> segmented pills */
+.tabs{background:#eaeff8;border:1px solid var(--line);border-radius:13px;padding:5px;gap:4px;width:fit-content;max-width:100%}
+.tab{border:none;background:transparent;border-radius:9px;padding:8px 15px}
+.tab.on{background:#fff;border:none;box-shadow:0 2px 10px rgba(28,43,74,.10),inset 0 0 0 1.5px rgba(139,92,246,.35)}
+/* empty states */
+.empty{background:#fff}
+.empty svg{color:var(--c2);opacity:.7}
+/* paper page: gradient binding strip */
+.page{overflow:hidden}
+.page::after{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--grad);opacity:.55}
+/* timetable: hover row + today column */
+.tt tbody tr:hover .slot:not(.filled){border-color:#b9c7e0;background:#f6f9ff}
+.tt thead th.isToday{color:#fff;background:var(--grad);border-radius:8px;box-shadow:0 4px 12px rgba(139,92,246,.3)}
+.slot .in{box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
+/* calendar: weekend tint */
+.calgrid>.calcell:nth-child(7n+1),.calgrid>.calcell:nth-child(7n){background:#f7f9fd}
+.calcell.today{background:#fff}
+/* materials rows */
+.mat{transition:all .15s}.mat:hover{border-color:var(--line2);transform:translateX(2px)}
+/* toast with icon */
+.toast{display:flex;gap:9px;align-items:center}
+.toast .tic{display:inline-flex;width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.16);align-items:center;justify-content:center;flex-shrink:0}
+/* boot splash */
+.boot{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;width:100%;gap:18px}
+.boot .ring{width:52px;height:52px;border-radius:50%;background:conic-gradient(var(--c1),var(--c2),var(--c3),var(--c1));
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 5px));
+          mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 5px));
+  animation:spin 1s linear infinite}
+.boot .wm{font:700 17px 'Space Grotesk';background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.boot p{color:var(--tx2);font-size:13px;margin:0}
+@keyframes spin{to{transform:rotate(1turn)}}
+/* scrollbars */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#c7d2e6;border-radius:99px;border:3px solid #f2f5fb}
+::-webkit-scrollbar-thumb:hover{background:#aab9d6}
+/* motion safety */
+@media(prefers-reduced-motion:reduce){#mainview>*,.boot .ring,.btn.primary::after{animation:none;transition:none}}
+</style>
+</head>
+<body>
+<div id="app" class="shell"><div class="boot"><div class="ring"></div>
+  <div class="wm">Curriculum → Classroom</div><p>Preparing your workspace…</p></div></div>
+<div class="toaststack" id="toasts"></div>
+<script>
+window.CSRF = "{{ csrf_token }}";
+</script>
+<script>
+/* =============== Curriculum -> Classroom portal (role-adaptive SPA) =============== */
+"use strict";
+const $=(s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function api(method,args={}){
+  const r=await fetch(`/api/method/curriculum_classroom.api.api.${method}`,{
+    method:"POST",headers:{"Content-Type":"application/json","X-Frappe-CSRF-Token":window.CSRF},
+    body:JSON.stringify(args)});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok||d.exc_type){const m=(d._server_messages&&JSON.parse(JSON.parse(d._server_messages)[0]).message)||d.exception||d.message||"Request failed";throw new Error(String(m).replace(/<[^>]+>/g,""));}
+  return d.message;
+}
+async function uploadFile(file,doctype,docname,fieldname){
+  const fd=new FormData();fd.append("file",file);fd.append("is_private","0");
+  if(doctype){fd.append("doctype",doctype);fd.append("docname",docname);fd.append("fieldname",fieldname||"");}
+  const r=await fetch("/api/method/upload_file",{method:"POST",headers:{"X-Frappe-CSRF-Token":window.CSRF},body:fd});
+  const d=await r.json();if(!r.ok)throw new Error("Upload failed");return d.message;
+}
+function toast(msg,type="ok"){const el=document.createElement("div");el.className=`toast ${type}`;
+  el.innerHTML=`<span class="tic">${icn(type==="err"?I.alert:I.check,13)}</span><span>${esc(msg)}</span>`;
+  $("#toasts").appendChild(el);setTimeout(()=>el.remove(),3800);}
+/* icons */
+const I={dash:'<path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 8h8V3h-8z"/>',
+book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+layers:'<path d="m12 2 10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5"/>',
+pen:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',
+clip:'<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>',
+users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+spark:'<path d="M12 3l1.9 5.7 5.7 1.9-5.7 1.9L12 18.2l-1.9-5.7L4.4 10.6l5.7-1.9z"/>',
+chevL:'<path d="m15 18-6-6 6-6"/>',chevD:'<path d="m6 9 6 6 6-6"/>',plus:'<path d="M12 5v14M5 12h14"/>',
+trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+up:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',
+dl:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+check:'<path d="M20 6 9 17l-5-5"/>',send:'<path d="m22 2-11 11M22 2 15 22l-4-9-9-4z"/>',
+cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>'};
+const icn=(p,s=17)=>`<svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:${s}px;height:${s}px">${p}</svg>`;
+/* tiny markdown (tables, svg fences, headings, lists, bold) */
+function md(text){const L=(text||"").replace(/\r/g,"").split("\n");let o="",i=0,list=null;
+ const inl=s=>esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+ const flush=()=>{if(list){o+=list.o?`<ol>${list.h}</ol>`:`<ul>${list.h}</ul>`;list=null;}};
+ while(i<L.length){const t=L[i].trim();const f=t.match(/^```(\w*)/);
+  if(f){flush();const lang=f[1].toLowerCase();let buf=[];i++;
+   while(i<L.length&&!L[i].trim().startsWith("```")){buf.push(L[i]);i++;}i++;
+   const code=buf.join("\n");
+   if(lang==="svg"||code.trim().startsWith("<svg"))o+=`<div class="svgbox">${code}</div>`;
+   else o+=`<pre>${esc(code)}</pre>`;continue;}
+  if(t.startsWith("|")&&L[i+1]&&/^[\s|:\-]+$/.test(L[i+1].trim())){flush();const rows=[];
+   while(i<L.length&&L[i].trim().startsWith("|")){rows.push(L[i].trim());i++;}
+   const parse=r=>r.replace(/^\||\|$/g,"").split("|").map(c=>c.trim());
+   const h=parse(rows[0]),body=rows.slice(2).map(parse);
+   o+=`<table><thead><tr>${h.map(c=>`<th>${inl(c)}</th>`).join("")}</tr></thead><tbody>${
+     body.map(r=>`<tr>${r.map(c=>`<td>${inl(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;continue;}
+  if(!t){flush();i++;continue;}
+  const h=t.match(/^(#{1,4})\s+(.*)/);
+  if(h){flush();o+=h[1].length<=2?`<h2>${inl(h[2])}</h2>`:`<h3>${inl(h[2])}</h3>`;i++;continue;}
+  const ol=t.match(/^\d+[.)]\s+(.*)/),ul=t.match(/^[-*\u2022]\s+(.*)/);
+  if(ol){if(!list||!list.o){flush();list={o:1,h:""};}list.h+=`<li>${inl(ol[1])}</li>`;i++;continue;}
+  if(ul){if(!list||list.o){flush();list={o:0,h:""};}list.h+=`<li>${inl(ul[1])}</li>`;i++;continue;}
+  flush();o+=`<p>${inl(t)}</p>`;i++;}
+ flush();return o;}
+/* SVG charts */
+function chartSVG(c){const W=340,H=190,P=30;const vals=c.values||[],labels=c.labels||[];
+ if(!vals.length)return `<div class="empty" style="padding:26px">No data yet</div>`;
+ if(c.type==="donut"){const tot=vals.reduce((a,b)=>a+b,0)||1;let a0=-Math.PI/2,segs="";
+  const cols=["url(#g1)","rgba(148,163,184,.25)","#f472b6","#60a5fa","#fbbf24"];
+  vals.forEach((v,i)=>{const a1=a0+v/tot*2*Math.PI;const large=a1-a0>Math.PI?1:0;
+   const x0=95+ECOS(a0)*62,y0=95+ESIN(a0)*62,x1=95+ECOS(a1)*62,y1=95+ESIN(a1)*62;
+   if(v>0)segs+=`<path d="M ${x0} ${y0} A 62 62 0 ${large} 1 ${x1} ${y1}" stroke="${cols[i%cols.length]}" stroke-width="20" fill="none" stroke-linecap="butt"/>`;a0=a1;});
+  const pct=Math.round((vals[0]/tot)*100);
+  return `<svg viewBox="0 0 340 190">${GRAD}${segs.replace(/95/g,m=>m)}
+   <text x="95" y="100" text-anchor="middle" fill="#111c38" font-size="26" font-weight="700" font-family="Space Grotesk">${pct}%</text>
+   ${labels.map((l,i)=>`<g transform="translate(190,${60+i*26})"><rect width="12" height="12" rx="3" fill="${cols[i%cols.length]}"/><text x="20" y="11" fill="#93a3bc" font-size="12">${esc(l)}: ${vals[i]}</text></g>`).join("")}</svg>`;}
+ const max=Math.max(...vals,1);const bw=Math.min(46,(W-P*2)/vals.length-10);
+ if(c.type==="line"){const pts=vals.map((v,i)=>[P+i*(W-P*2)/Math.max(vals.length-1,1),H-P-(v/max)*(H-P*2-10)]);
+  const path=pts.map((p,i)=>`${i?"L":"M"} ${p[0]} ${p[1]}`).join(" ");
+  return `<svg viewBox="0 0 340 190">${GRAD}
+   <path d="${path}" stroke="url(#g1)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+   ${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#ffffff" stroke="url(#g1)" stroke-width="2"><title>${esc(labels[i]||"")}: ${vals[i]}%</title></circle>`).join("")}
+   ${pts.map((p,i)=>`<text x="${p[0]}" y="${p[1]-10}" text-anchor="middle" fill="#93a3bc" font-size="10">${vals[i]}</text>`).join("")}</svg>`;}
+ return `<svg viewBox="0 0 340 190">${GRAD}
+  ${vals.map((v,i)=>{const x=P+i*(W-P*2)/vals.length+5,h=(v/max)*(H-P*2-8),y=H-P-h;
+   return `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(h,2)}" rx="6" fill="url(#g1)" opacity="0.9"><title>${esc(labels[i]||"")}: ${v}</title></rect>
+    <text x="${x+bw/2}" y="${y-6}" text-anchor="middle" fill="#93a3bc" font-size="10">${v}</text>
+    <text x="${x+bw/2}" y="${H-P+13}" text-anchor="middle" fill="#5b6b85" font-size="9">${esc(String(labels[i]||"").slice(0,9))}</text>`;}).join("")}</svg>`;}
+const GRAD=`<defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset=".6" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>`;
+const ECOS=Math.cos,ESIN=Math.sin;
+const hue=s=>[160,205,265,20,320,45,190,285][(s||"").split("").reduce((a,c)=>a+c.charCodeAt(0),0)%8];
+/* =============== state =============== */
+const S={boot:null,view:"dashboard",programs:[],cal:{years:[],terms:[]},
+ sel:{program:null,course:null},courseTab:"curriculum",curr:null,lib:[],lesson:null,libTab:null,
+ hw:[],hwOpen:null,groups:[],ttGroup:null,tt:null,selSlot:null,collapsed:{},
+ gen:{running:false,done:0,total:0,docs:{}},form:{topic:"",term:"",week:"",duration:"",extra:"",row:null},
+ picks:{lesson_plan:1,teacher_notes:1,lesson_notes:1,student_notes:1,assessment:1},
+ calYM:{y:new Date().getFullYear(),m:new Date().getMonth()},dash:null,people:[],myTT:[]};
+const DOCL={lesson_plan:"Lesson Plan",teacher_notes:"Teacher's Notes",lesson_notes:"Lesson Notes",student_notes:"Student Notes",assessment:"Assessment"};
+const TERMS=["First Term","Second Term","Third Term"];
+const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday"];
+const today=()=>new Date().toISOString().slice(0,10);
+const isStaff=()=>["CC Super Admin","CC Program Coordinator","CC Teacher"].includes(S.boot.role);
+/* =============== boot =============== */
+(async function(){try{S.boot=await api("bootstrap");
+  if(S.boot.branding.accent)document.documentElement.style.setProperty("--c1",S.boot.branding.accent);
+  render();loadDash();
+ }catch(e){$("#app").innerHTML=`<div class="main"><div class="empty" style="margin-top:60px"><div class="big">Could not load</div>${esc(e.message)}<p class="hint">Are you logged in? Is the app installed?</p></div></div>`;}})();
+async function loadDash(){try{S.dash=await api("dashboard");}catch(e){S.dash={cards:[],charts:[],note:e.message};}render();}
+/* =============== nav / render =============== */
+function NAV(){const r=S.boot.role;const n=[["dashboard","Dashboard",I.dash]];
+ if(isStaff())n.push(["programs","Programs",I.layers]);
+ if(isStaff())n.push(["timetable","Timetables",I.grid],["people","People",I.users]);
+ if(r==="CC Student")n.push(["mylearning","My Learning",I.book],["myhomework","Homework",I.clip],["mytt","My Timetable",I.grid]);
+ if(r==="CC Parent")n.push(["children","My Children",I.users]);
+ if(r==="CC Super Admin")n.push(["settings","Settings",I.cog]);
+ return n;}
+function go(v){S.view=v;S.sel.course=null;S.lesson=null;S.hwOpen=null;render();}
+function render(){const b=S.boot;
+ $("#app").innerHTML=`
+ <aside class="rail">
+  <div class="brand"><div class="dot">${b.branding.logo?`<img src="${esc(b.branding.logo)}">`:icn(I.book,19)}</div>
+   <div><div class="t1">${esc(b.branding.school_name||"Curriculum → Classroom")}</div>
+   <div class="t2">${b.branding.school_name?"Curriculum → Classroom":"Frappe Education suite"}</div></div></div>
+  <nav class="nav">${NAV().map(([id,l,ic])=>`<button class="nbtn ${S.view===id?"on":""}" onclick="go('${id}')">${icn(ic)}${l}</button>`).join("")}</nav>
+  <div class="rolechip"><b>${esc(b.full_name)}</b>${esc(b.user)}<span class="pill">${esc(b.role||"No CC role")}</span></div>
+ </aside>
+ <main class="main" id="mainview"></main>`;
+ const V={dashboard:vDash,programs:vPrograms,timetable:vTimetable,people:vPeople,
+  mylearning:vStudentLibrary,myhomework:vHomeworkList,mytt:vMyTT,children:vDash,settings:vSettings};
+ (V[S.view]||vDash)();}
+/* =============== dashboard =============== */
+function vDash(){const d=S.dash;const m=$("#mainview");
+ m.innerHTML=`<div class="head"><div><div class="eyebrow">${S.boot.role==="CC Parent"?"Family":"Overview"}</div><h1>${S.boot.role==="CC Parent"?"My Children":"Dashboard"}</h1>
+  <p>Live KPIs tailored to your role${S.boot.education_installed?"":" · <b style='color:var(--amber)'>Education app not detected - install it for Programs/Students</b>"}</p></div>
+  <span class="chip grad">${esc(S.boot.role||"")}</span></div>
+ ${!d?`<div class="skel" style="width:60%"></div><div class="skel" style="width:80%"></div>`:`
+ ${d.note?`<div class="empty" style="margin-bottom:16px">${esc(d.note)}</div>`:""}
+ <div class="statrow">${(d.cards||[]).map(c=>`<div class="stat ${c.tone||""}"><div class="ico">${icn(IC(c.icon||"spark"),16)}</div><div class="n">${esc(c.value)}</div><div class="l">${esc(c.label)}</div>${c.sub?`<div class="s">${esc(c.sub)}</div>`:""}</div>`).join("")}</div>
+ <div class="chartgrid">${(d.charts||[]).map(c=>`<div class="panel chartcard"><h3>${esc(c.title)}</h3>${chartSVG(c)}</div>`).join("")}</div>`}`;}
+/* =============== programs -> courses =============== */
+async function vPrograms(){const m=$("#mainview");
+ m.innerHTML=`<div class="head"><div><h1>Programs</h1><p>Frappe Education structure: a Program contains its Courses. Open a course to teach it.</p></div></div><div id="pg"><div class="skel" style="width:50%"></div></div>`;
+ if(!S.programs.length){try{S.programs=await api("programs");}catch(e){$("#pg").innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}}
+ if(S.sel.course)return vCourse();
+ $("#pg").innerHTML=S.programs.length?S.programs.map(p=>`
+  <div class="termhead" style="cursor:default"><span class="t">${icn(I.layers)} ${esc(p.program_name||p.name)}</span>
+   <span class="bdg">${p.courses.length} course${p.courses.length!==1?"s":""}</span></div>
+  <div class="lgrid" style="margin-bottom:6px">${p.courses.map(c=>`
+   <div class="card" onclick="openCourse('${esc(p.name)}','${esc(c)}')"><h3>${esc(c)}</h3>
+    <div class="m">Curriculum · Calendar · Prepare · Library · Homework</div></div>`).join("")||`<div class="empty" style="grid-column:1/-1;padding:22px">No courses under this program yet - add them in Desk → Program.</div>`}</div>`).join("")
+  :`<div class="empty"><div class="big">No programs found</div>Create Programs & Courses in Desk (Education module), then refresh.</div>`;}
+async function openCourse(program,course){S.sel={program,course};S.courseTab="curriculum";S.curr=null;S.lib=[];S.hw=[];render();}
+/* =============== course workspace =============== */
+async function vCourse(){const m=$("#mainview");const {program,course}=S.sel;
+ m.innerHTML=`<div class="crumb"><a href="javascript:void(0)" onclick="S.sel.course=null;render()">Programs</a><span class="sep">›</span>${esc(program)}<span class="sep">›</span><b style="color:var(--tx)">${esc(course)}</b></div>
+ <div class="head"><div><h1>${esc(course)}</h1><p>Everything for this course lives here - under its program, per the Education structure.</p></div></div>
+ <div class="tabs">${["curriculum","calendar","prepare","library","homework"].map(t=>`<button class="tab ${S.courseTab===t?"on":""}" onclick="S.courseTab='${t}';S.lesson=null;S.hwOpen=null;render()">${t[0].toUpperCase()+t.slice(1)}</button>`).join("")}</div>
+ <div id="ctab"><div class="skel" style="width:55%"></div><div class="skel" style="width:75%"></div></div>`;
+ const T={curriculum:tCurriculum,calendar:tCalendar,prepare:tPrepare,library:tLibrary,homework:tHomework};
+ T[S.courseTab]();}
+/* ---- curriculum tab ---- */
+async function tCurriculum(){const el=$("#ctab");const {program,course}=S.sel;
+ if(S.curr===null){try{S.curr=await api("get_curriculum",{program,course})||{topics:[]};}catch(e){el.innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}}
+ const c=S.curr;const done=(c.topics||[]).filter(t=>t.status==="Completed").length,tot=(c.topics||[]).length;
+ el.innerHTML=`<div class="grid2">
+  <section class="panel"><h2>${icn(I.book)} Curriculum document</h2>
+   <div class="field"><label>Upload / replace file (PDF, image, text)</label>
+    <input type="file" id="cfile" accept=".pdf,.txt,.md,.csv,image/*"></div>
+   ${c.curriculum_file?`<p class="hint">Current file: <a href="${esc(c.curriculum_file)}" target="_blank">${esc(c.curriculum_file.split("/").pop())}</a></p>`:""}
+   <button class="btn primary go" onclick="saveCurr()">${icn(I.up,15)} Save curriculum</button>
+   ${c.name?`<button class="btn go" style="margin-top:10px" id="xbtn" onclick="extract()">${icn(I.spark,15)} ${tot?"Re-extract":"Extract"} topics with AI</button>`:""}
+   ${tot?`<div style="margin-top:18px"><h2>Auto-plan</h2>
+    <div class="field"><label>Start date (one topic / week)</label><div style="display:flex;gap:8px">
+     <input type="date" id="apd" value="${today()}" style="flex:1;background:#ffffff;border:1px solid var(--line2);border-radius:10px;color:var(--tx);padding:9px 11px">
+     <button class="btn" onclick="autoPlan()">${icn(I.cal,14)} Plan</button></div></div>
+    <p class="hint">${done}/${tot} topics completed (${tot?Math.round(done/tot*100):0}% coverage)</p></div>`:""}
+  </section>
+  <section><h2 style="margin:0 0 12px">Topics (scheme of work)</h2>
+   ${tot?c.topics.map((t,i)=>`
+    <div class="card flex" style="cursor:default">
+     <div style="display:flex;gap:11px;align-items:flex-start;min-width:0">
+      <button class="btn" style="padding:4px 8px;border-radius:50%" title="Toggle completed" onclick="topicPatch('${t.name}',{status:'${t.status==="Completed"?"Pending":"Completed"}'})">${t.status==="Completed"?icn(I.check,13):"○"}</button>
+      <div style="min-width:0"><b style="${t.status==="Completed"?"text-decoration:line-through;color:var(--tx2)":""}">${i+1}. ${esc(t.topic_title)}</b>
+       <div class="m">${esc(t.term||"")}${t.week_no?` · Week ${t.week_no}`:""}${t.objectives?` · ${esc(t.objectives)}`:""}${t.planned_date?` · planned ${esc(t.planned_date)}`:""}</div></div></div>
+     <div class="right"><input type="date" value="${esc(t.planned_date||"")}" onchange="topicPatch('${t.name}',{planned_date:this.value})" style="background:#ffffff;border:1px solid var(--line2);border-radius:8px;color:var(--tx2);padding:5px 8px;font-size:12px">
+      <span class="chip ${t.status==="Completed"?"green":"amber"}">${t.status}</span>
+      <button class="btn primary" onclick="prepFrom('${t.name}')">${icn(I.pen,13)} Prepare</button></div></div>`).join("")
+   :`<div class="empty"><div class="big">No topics yet</div>${c.name?"Press “Extract topics with AI”.":"Save a curriculum file first."}</div>`}</section></div>`;}
+async function saveCurr(){const {program,course}=S.sel;const f=$("#cfile").files[0];
+ try{let file_url=null;
+  if(f){const up=await uploadFile(f);file_url=up.file_url;}
+  S.curr=await api("save_curriculum",{program,course,curriculum_file:file_url});
+  toast("Curriculum saved");render();}catch(e){toast(e.message,"err");}}
+async function extract(){const b=$("#xbtn");b.disabled=true;b.innerHTML=`${icn(I.spark,15)} Reading curriculum…`;
+ try{S.curr=await api("extract_topics",{curriculum:S.curr.name});toast(`${S.curr.topics.length} topics extracted`);render();}
+ catch(e){toast(e.message,"err");render();}}
+async function topicPatch(row,patch){try{S.curr=await api("update_topic",{curriculum:S.curr.name,row,patch:JSON.stringify(patch)});render();}catch(e){toast(e.message,"err");}}
+async function autoPlan(){try{S.curr=await api("auto_plan",{curriculum:S.curr.name,start_date:$("#apd").value});toast("Delivery dates planned");render();}catch(e){toast(e.message,"err");}}
+function prepFrom(row){const t=S.curr.topics.find(x=>x.name===row);if(!t)return;
+ S.form={topic:t.topic_title,term:t.term||"",week:t.week_no||"",duration:"",extra:t.objectives?`Objectives from curriculum: ${t.objectives}`:"",row};
+ S.courseTab="prepare";render();}
+/* ---- calendar tab ---- */
+function tCalendar(){const el=$("#ctab");const topics=(S.curr&&S.curr.topics)||[];
+ if(S.curr===null){api("get_curriculum",S.sel).then(c=>{S.curr=c||{topics:[]};render();});el.innerHTML=`<div class="skel" style="width:60%"></div>`;return;}
+ const {y,m:mo}=S.calYM;const MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+ const first=new Date(y,mo,1).getDay(),dim=new Date(y,mo+1,0).getDate();const cells=[];
+ for(let i=0;i<first;i++)cells.push(null);for(let d=1;d<=dim;d++)cells.push(`${y}-${String(mo+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`);
+ while(cells.length%7)cells.push(null);
+ el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+  <button class="btn" onclick="S.calYM=shiftM(-1);render()">${icn(I.chevL,14)} Prev</button>
+  <span style="font-family:'Space Grotesk';font-weight:700;font-size:19px">${MN[mo]} ${y}</span>
+  <button class="btn" onclick="S.calYM=shiftM(1);render()">Next</button></div>
+ ${topics.length?`<div class="calgrid">${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<div class="caldow">${d}</div>`).join("")}
+  ${cells.map((d,i)=>{if(!d)return `<div class="calcell blank"></div>`;
+   const dt=topics.filter(t=>t.planned_date===d);
+   return `<div class="calcell ${d===today()?"today":""}"><div class="caldn">${+d.slice(8)}</div>
+    ${dt.map(t=>{const cls=t.status==="Completed"?"c":d<today()?"o":"p";
+     return `<div class="caltopic ${cls}" title="${esc(t.objectives||"")}" onclick="prepFrom('${t.name}')">${esc(t.topic_title)}</div>`;}).join("")}</div>`;}).join("")}</div>`
+ :`<div class="empty"><div class="big">Nothing scheduled</div>Extract topics and set planned dates in the Curriculum tab.</div>`}`;}
+function shiftM(d){const x=new Date(S.calYM.y,S.calYM.m+d,1);return {y:x.getFullYear(),m:x.getMonth()};}
+/* ---- prepare tab ---- */
+function tPrepare(){const el=$("#ctab");const f=S.form,g=S.gen;const topics=(S.curr&&S.curr.topics)||[];
+ if(S.curr===null){api("get_curriculum",S.sel).then(c=>{S.curr=c||{topics:[]};render();});el.innerHTML=`<div class="skel" style="width:60%"></div>`;return;}
+ el.innerHTML=`<div class="grid2">
+  <section class="panel"><h2>${icn(I.pen)} Lesson details</h2>
+   ${topics.length?`<div class="field"><label>Topic from curriculum</label>
+    <select onchange="if(this.value)prepFrom(this.value)">
+     <option value="">— choose a topic (${topics.length} extracted) —</option>
+     ${topics.map((t,i)=>`<option value="${t.name}" ${f.row===t.name?"selected":""}>${i+1}. ${esc(t.topic_title)}${t.status==="Completed"?" ✓":""}</option>`).join("")}
+    </select></div>`:""}
+   <div class="field"><label>Topic *</label><input id="f_topic" value="${esc(f.topic)}" placeholder="e.g. Photosynthesis"></div>
+   <div class="row3">
+    <div class="field"><label>Term</label><select id="f_term"><option value="">— term —</option>
+     ${TERMS.map(t=>`<option ${f.term===t?"selected":""}>${t}</option>`).join("")}</select></div>
+    <div class="field"><label>Week</label><select id="f_week"><option value="">— week —</option>
+     ${Array.from({length:15},(_,i)=>`<option ${String(f.week)===String(i+1)?"selected":""}>${i+1}</option>`).join("")}</select></div>
+    <div class="field"><label>Duration</label><input id="f_dur" value="${esc(f.duration)}" placeholder="40 minutes"></div></div>
+   <div class="field"><label>Extra notes / objectives</label><textarea id="f_extra" placeholder="Auto-fills when a curriculum topic is chosen…">${esc(f.extra)}</textarea></div>
+   <h2>${icn(I.spark)} What should be prepared?</h2>
+   <div class="pickrow">${Object.entries(DOCL).map(([k,l])=>`<button class="pick ${S.picks[k]?"on":""}" onclick="S.picks['${k}']=S.picks['${k}']?0:1;render()">${l}</button>`).join("")}</div>
+   <button class="btn primary go" id="genbtn" ${g.running?"disabled":""} onclick="generate()">${icn(I.spark,15)} ${g.running?`Preparing ${Math.min(g.done+1,g.total)} of ${g.total}…`:"Generate documents"}</button>
+   <p class="hint">Runs server-side via your Anthropic key in CC Settings. Finished documents are filed in this course's Library under Term → Week.</p>
+  </section>
+  <section id="genout">${genOut()}</section></div>`;}
+function genOut(){const g=S.gen;const keys=Object.keys(g.docs);
+ if(!keys.length)return `<div class="empty">${icn(I.pen,28)}<div class="big">Your documents will appear here</div>Pick a topic, choose what to prepare, then generate.</div>`;
+ const act=g.active&&g.docs[g.active]?g.active:keys[0];g.active=act;const d=g.docs[act];
+ const b=S.boot.branding;
+ return `<div class="tabs">${keys.map(k=>`<button class="tab ${act===k?"on":""}" onclick="S.gen.active='${k}';$('#genout').innerHTML=genOut()">
+   <span class="dot ${d&&g.docs[k].status==="loading"?"l":g.docs[k].status==="done"?"d":g.docs[k].status==="error"?"e":"q"}"></span>${DOCL[k]}</button>`).join("")}</div>
+  <div class="page"><div class="lh">${b.logo?`<img src="${esc(b.logo)}">`:""}
+   <div><div class="n">${esc(b.school_name||"")}</div>${b.address?`<div class="s">${esc(b.address)}</div>`:""}
+   <div class="d">${DOCL[act]} — ${esc(S.sel.course)}${S.form.term?" — "+esc(S.form.term):""}${S.form.week?", Week "+esc(S.form.week):""}</div></div></div>
+  ${d.status==="queued"?`<p style="color:#5a6a88;font-style:italic">Queued — written next.</p>`:""}
+  ${d.status==="loading"?["42%","92%","86%","95%","63%","35%","89%"].map(w=>`<div class="skel" style="width:${w};background:linear-gradient(90deg,#e6ebf3 25%,#f2f5fa 45%,#e6ebf3 65%);background-size:200% 100%"></div>`).join(""):""}
+  ${d.status==="error"?`<p style="color:#c0392b;font-weight:600;padding-top:27px">Failed: ${esc(d.error)}</p>`:""}
+  ${d.status==="done"?`<div class="md">${md(d.content)}</div>`:""}</div>`;}
+async function generate(){const f=S.form;
+ f.topic=$("#f_topic").value.trim();f.term=$("#f_term").value;f.week=$("#f_week").value;
+ f.duration=$("#f_dur").value;f.extra=$("#f_extra").value;
+ const picks=Object.keys(S.picks).filter(k=>S.picks[k]);
+ if(!f.topic){toast("Enter a topic","err");return;}
+ if(!picks.length){toast("Pick at least one document","err");return;}
+ S.gen={running:true,done:0,total:picks.length,docs:Object.fromEntries(picks.map(k=>[k,{status:"queued"}])),active:picks[0]};
+ render();
+ for(const k of picks){
+  S.gen.docs[k]={status:"loading"};S.gen.active=k;$("#genout").innerHTML=genOut();
+  try{const r=await api("generate_documents",{program:S.sel.program,course:S.sel.course,
+    topic:f.topic,doc_types:JSON.stringify([k]),term:f.term,week:f.week,
+    duration:f.duration,extra:f.extra,curriculum:S.curr&&S.curr.name,topic_row:f.row});
+   const res=r.results[k];
+   S.gen.docs[k]=res.ok?{status:"done",content:res.content}:{status:"error",error:res.error};
+  }catch(e){S.gen.docs[k]={status:"error",error:e.message};}
+  S.gen.done++;$("#genout").innerHTML=genOut();
+  const gb=$("#genbtn");if(gb)gb.innerHTML=`${icn(I.spark,15)} Preparing ${Math.min(S.gen.done+1,S.gen.total)} of ${S.gen.total}…`;
+ }
+ S.gen.running=false;S.lib=[];toast("Documents ready and filed in Library");render();}
+/* ---- library tab ---- */
+async function tLibrary(){const el=$("#ctab");
+ if(!S.lib.length){try{S.lib=await api("library",{course:S.sel.course,program:S.sel.program});}catch(e){el.innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}}
+ if(S.lesson)return lessonView(el);
+ if(!S.lib.length){el.innerHTML=`<div class="empty">${icn(I.folder,28)}<div class="big">The library is empty</div>Generate documents in Prepare — they file here automatically under Term → Week → Topic.</div>`;return;}
+ const byTerm={};S.lib.forEach(l=>{(byTerm[l.term]=byTerm[l.term]||{})[l.week||0]=(byTerm[l.term][l.week||0]||[]).concat(l);});
+ const tOrd=t=>{const i=TERMS.indexOf(t);return i<0?99:i;};
+ el.innerHTML=Object.keys(byTerm).sort((a,b)=>tOrd(a)-tOrd(b)).map(term=>{
+  const weeks=Object.keys(byTerm[term]).sort((a,b)=>a-b);
+  const cnt=weeks.reduce((a,w)=>a+byTerm[term][w].length,0);
+  return `<div class="termhead ${S.collapsed[term]?"closed":""}" onclick="S.collapsed['${esc(term)}']=!S.collapsed['${esc(term)}'];render()">
+   <span class="chev">${icn(I.chevD,15)}</span><span class="t">${esc(term)}</span><span class="bdg">${cnt} lesson${cnt!==1?"s":""}</span></div>
+  ${S.collapsed[term]?"":weeks.map(w=>`<div class="weekblk"><div class="weektitle">${w==="0"?"No week set":"Week "+w}</div>
+   <div class="lgrid">${byTerm[term][w].map(l=>`
+    <div class="card" onclick="openLesson('${l.name}')"><h3>${esc(l.topic)}</h3>
+     <div class="m" style="margin-bottom:8px">${esc(l.course)}</div>
+     <div style="display:flex;flex-wrap:wrap;gap:5px">${Object.entries(l.docs).filter(([,v])=>v).map(([k])=>`<span class="chip blue">${DOCL[k]||k}</span>`).join("")}
+      ${l.materials.length?`<span class="chip green">${l.materials.length} material${l.materials.length!==1?"s":""}</span>`:""}</div></div>`).join("")}</div></div>`).join("")}`;}).join("");}
+async function openLesson(name){try{S.lesson=await api("lesson_detail",{name});S.libTab=Object.keys(S.lesson.docs)[0]||null;render();}catch(e){toast(e.message,"err");}}
+function lessonView(el){const l=S.lesson;const b=S.boot.branding;const keys=Object.keys(l.docs);
+ el.innerHTML=`<div class="crumb"><a href="javascript:void(0)" onclick="S.lesson=null;render()">Library</a><span class="sep">›</span>${esc(l.term||"")}${l.week?` · Week ${l.week}`:""}<span class="sep">›</span><b style="color:var(--tx)">${esc(l.topic)}</b></div>
+ <div class="tabs">${keys.map(k=>`<button class="tab ${S.libTab===k?"on":""}" onclick="S.libTab='${k}';render()"><span class="dot d"></span>${DOCL[k]||k}</button>`).join("")}</div>
+ ${S.libTab?`<div class="page"><div class="lh">${b.logo?`<img src="${esc(b.logo)}">`:""}
+   <div><div class="n">${esc(b.school_name||"")}</div>${b.address?`<div class="s">${esc(b.address)}</div>`:""}
+   <div class="d">${DOCL[S.libTab]} — ${esc(l.course)} — ${esc(l.term||"")}${l.week?", Week "+l.week:""}</div></div></div>
+  <div class="md">${md(l.docs[S.libTab])}</div></div>`:`<div class="empty">No documents on this lesson yet.</div>`}
+ <section class="panel" style="margin-top:18px"><h2>${icn(I.folder)} Reading material for students</h2>
+  ${l.materials.map(mt=>`<div class="mat"><span style="color:hsl(${hue(mt.material_type)} 55% 40%)">${icn(mt.material_type==="Link"||mt.material_type==="Video"?I.link:I.folder,15)}</span>
+   <span class="nm" title="${esc(mt.material_name)}">${esc(mt.material_name)}</span><span class="chip blue">${esc(mt.material_type)}</span>
+   ${mt.url?`<a class="btn" href="${esc(mt.url)}" target="_blank">${icn(I.link,12)} Open</a>`:""}
+   ${mt.attachment?`<a class="btn" href="${esc(mt.attachment)}" target="_blank" download>${icn(I.dl,12)} Download</a>`:""}
+   ${isStaff()?`<button class="btn danger" onclick="rmMat('${mt.name}')">${icn(I.trash,12)}</button>`:""}</div>`).join("")||`<p class="hint" style="margin-top:0">Attach files (PDF, Word, Excel, PowerPoint, images, video, HTML…) or web links for students.</p>`}
+  ${isStaff()?`<div class="row2" style="margin-top:12px;align-items:end">
+   <div class="field" style="margin:0"><label>Attach a file</label><input type="file" id="matfile"></div>
+   <div><button class="btn" onclick="addMatFile()">${icn(I.up,13)} Upload & attach</button></div></div>
+  <div class="row2" style="margin-top:12px;align-items:end">
+   <div class="field" style="margin:0"><label>Link title</label><input id="matname" placeholder="e.g. Photosynthesis video"></div>
+   <div class="field" style="margin:0"><label>URL</label><div style="display:flex;gap:8px">
+    <input id="maturl" placeholder="https://…" style="flex:1"><button class="btn primary" onclick="addMatLink()">${icn(I.plus,13)} Add</button></div></div></div>`:""}
+ </section>`;}
+async function addMatFile(){const f=$("#matfile").files[0];if(!f){toast("Choose a file first","err");return;}
+ try{const up=await uploadFile(f,"CC Lesson",S.lesson.name);
+  const ext=f.name.toLowerCase();const type=/\.pdf$/.test(ext)?"PDF":/\.docx?$/.test(ext)?"Word":/\.xlsx?$|\.csv$/.test(ext)?"Excel":/\.pptx?$/.test(ext)?"Slides":/\.(png|jpe?g|gif|webp|svg)$/.test(ext)?"Image":/\.(mp4|mov|webm|avi)$/.test(ext)?"Video":/\.html?$/.test(ext)?"HTML":"File";
+  S.lesson=await api("add_material",{lesson:S.lesson.name,material_name:f.name,material_type:type,attachment:up.file_url});
+  S.lib=[];toast(`"${f.name}" attached`);render();}catch(e){toast(e.message,"err");}}
+async function addMatLink(){let url=$("#maturl").value.trim();if(!url)return;
+ if(!/^https?:\/\//.test(url))url="https://"+url;
+ const type=/youtube|youtu\.be|vimeo|\.mp4/.test(url)?"Video":"Link";
+ try{S.lesson=await api("add_material",{lesson:S.lesson.name,material_name:$("#matname").value.trim()||url,material_type:type,url});
+  S.lib=[];toast("Link added");render();}catch(e){toast(e.message,"err");}}
+async function rmMat(row){try{S.lesson=await api("remove_material",{lesson:S.lesson.name,row});S.lib=[];render();}catch(e){toast(e.message,"err");}}
+/* ---- homework tab (course scope, staff) ---- */
+async function tHomework(){const el=$("#ctab");
+ try{S.hw=await api("homework_list",{course:S.sel.course});}catch(e){el.innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}
+ if(S.hwOpen)return hwDetail(el);
+ if(!S.groups.length){try{S.groups=await api("student_groups",{});}catch(e){}}
+ el.innerHTML=`<div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+  <button class="btn primary" onclick="S.showNewHw=!S.showNewHw;render()">${icn(I.plus,14)} ${S.showNewHw?"Close":"New assignment"}</button></div>
+ ${S.showNewHw?`<section class="panel" style="margin-bottom:16px"><h2>${icn(I.clip)} New assignment</h2>
+  <div class="row2"><div class="field"><label>Title</label><input id="hw_t" placeholder="e.g. Photosynthesis — Week 4 homework"></div>
+   <div class="field"><label>Due date</label><input type="date" id="hw_d"></div></div>
+  <div class="row2"><div class="field"><label>Student group</label><select id="hw_g"><option value="">— choose group —</option>
+   ${S.groups.map(g=>`<option value="${esc(g.name)}">${esc(g.student_group_name||g.name)}</option>`).join("")}</select></div>
+   <div class="field"><label>From a prepared assessment?</label><select id="hw_l"><option value="">— optional: pick a Library lesson —</option>
+   ${S.lib.filter(l=>l.docs.assessment).map(l=>`<option value="${l.name}">${esc(l.topic)}</option>`).join("")}</select></div></div>
+  <div class="field"><label>Questions / instructions (Markdown; include a marking guide for better AI grading)</label>
+   <textarea id="hw_c" style="min-height:130px"></textarea></div>
+  <button class="btn primary go" onclick="createHW()">${icn(I.send,15)} Create & assign to group</button>
+  <p class="hint">A Pending submission is created for every student in the group, so Overdue/Pending/Submitted/Graded buckets work immediately.</p></section>`:""}
+ ${S.hw.length?S.hw.map(h=>`<div class="card flex" onclick="openHW('${h.name}')">
+   <div><h3>${esc(h.title)}</h3><div class="m">${esc(h.student_group||"no group")}${h.due_date?` · due ${esc(h.due_date)}`:""}</div></div>
+   <div class="right">${h.overdue?`<span class="chip red">overdue</span>`:""}
+    <span class="chip blue">${h.submitted} submitted</span><span class="chip green">${h.graded} graded</span></div></div>`).join("")
+ :`<div class="empty">${icn(I.clip,28)}<div class="big">No assignments yet</div>Create one, or generate an Assessment in Prepare first.</div>`}`;}
+async function createHW(){const lesson=$("#hw_l").value;let content=$("#hw_c").value.trim();
+ try{if(lesson&&!content){const ld=await api("lesson_detail",{name:lesson});content=ld.docs.assessment||"";}
+  if(!$("#hw_t").value.trim()||!content){toast("Title and content required","err");return;}
+  const name=await api("homework_create",{title:$("#hw_t").value.trim(),course:S.sel.course,program:S.sel.program,
+   content,student_group:$("#hw_g").value||null,due_date:$("#hw_d").value||null,lesson:lesson||null});
+  S.showNewHw=false;S.hwOpen=name;toast("Assignment created");render();}catch(e){toast(e.message,"err");}}
+async function openHW(name){S.hwOpen=name;render();}
+async function hwDetail(el){let h;try{h=await api("homework_detail",{name:S.hwOpen});}catch(e){el.innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}
+ const b=S.boot.branding;
+ el.innerHTML=`<div class="crumb"><a href="javascript:void(0)" onclick="S.hwOpen=null;render()">Homework</a><span class="sep">›</span><b style="color:var(--tx)">${esc(h.title)}</b></div>
+ <div class="grid2"><section><div class="page" style="min-height:220px"><div class="lh">${b.logo?`<img src="${esc(b.logo)}">`:""}
+   <div><div class="n">${esc(b.school_name||"")}</div><div class="d">Homework — ${esc(h.title)}${h.due_date?" — due "+esc(h.due_date):""}</div></div></div>
+  <div class="md">${md(h.content)}</div></div></section>
+ <section><h2 style="margin:0 0 12px">Submissions & grading</h2>
+  ${h.submissions.map(s=>{const over=h.due_date&&h.due_date<today()&&!(s.submission_text||"").trim();
+   const st=s.status==="Graded"?"graded":(s.submission_text||"").trim()?"submitted":over?"overdue":"pending";
+   const cls={graded:"green",submitted:"blue",overdue:"red",pending:"amber"}[st];
+   return `<div class="panel" style="margin-bottom:10px;padding:15px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+     <b>${esc(s.student_name||s.student)}</b>
+     <span style="display:flex;gap:10px;align-items:center">${s.status==="Graded"?`<span style="font-family:'Space Grotesk';font-weight:700;color:var(--green)">${s.score}/${s.max_score}</span>`:""}
+      <span class="chip ${cls}">${st}</span></span></div>
+    ${isStaff()?`<textarea id="sub_${s.name}" placeholder="Paste or type the student's answers…" style="width:100%;margin-top:10px;background:#ffffff;border:1px solid var(--line2);border-radius:10px;color:var(--tx);padding:9px 11px;min-height:70px;font:inherit">${esc(s.submission_text||"")}</textarea>
+    <div style="display:flex;gap:8px;margin-top:9px;flex-wrap:wrap">
+     <button class="btn" onclick="saveSub('${s.name}')">${icn(I.up,12)} Save text</button>
+     <button class="btn primary" onclick="gradeSub(this,'${s.name}')">${icn(I.spark,12)} ${s.status==="Graded"?"Re-grade with AI":"Grade with AI"}</button>
+    </div>`:""}
+    ${s.feedback?`<div style="border-left:3px solid var(--green);padding:8px 12px;margin-top:10px;font-size:13px;color:var(--tx2)"><b style="color:var(--tx)">Feedback:</b> ${esc(s.feedback)}</div>`:""}
+   </div>`;}).join("")||`<div class="empty">No students on this assignment. Pick a Student Group when creating it.</div>`}</section></div>`;}
+async function saveSub(name){try{await api("teacher_set_submission",{submission:name,text:$(`#sub_${name}`).value});toast("Saved");render();}catch(e){toast(e.message,"err");}}
+async function gradeSub(btn,name){btn.disabled=true;btn.innerHTML=`${icn(I.spark,12)} Grading…`;
+ try{await api("teacher_set_submission",{submission:name,text:$(`#sub_${name}`).value});
+  const r=await api("grade_submission",{submission:name});toast(`Graded: ${r.score}/${r.max_score}`);render();}
+ catch(e){toast(e.message,"err");render();}}
+/* =============== timetables (per Student Group) =============== */
+async function vTimetable(){const m=$("#mainview");
+ m.innerHTML=`<div class="head"><div><h1>Timetables</h1><p>One weekly timetable per Student Group, colour-coded by course and linked to curriculum topics.</p></div></div><div id="ttbody"><div class="skel" style="width:50%"></div></div>`;
+ if(!S.groups.length){try{S.groups=await api("student_groups",{});}catch(e){$("#ttbody").innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}}
+ const el=$("#ttbody");
+ if(!S.groups.length){el.innerHTML=`<div class="empty">${icn(I.grid,28)}<div class="big">No Student Groups found</div>Create Student Groups in Desk (Education) — each gets its own timetable here.</div>`;return;}
+ if(!S.ttGroup)S.ttGroup=S.groups[0].name;
+ if(!S.tt||S.tt.student_group!==S.ttGroup){S.tt=await api("timetable_get",{student_group:S.ttGroup});
+  if(!S.tt.slots.length)S.tt.slots=defaultSlots();}
+ el.innerHTML=`<div class="pickrow">${S.groups.map(g=>`<button class="pick ${S.ttGroup===g.name?"on":""}" onclick="S.ttGroup='${esc(g.name)}';S.tt=null;S.selSlot=null;render()">${esc(g.student_group_name||g.name)}</button>`).join("")}</div>
+ ${ttGrid(true)}
+ <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+  <button class="btn" onclick="addPeriodRow()">${icn(I.plus,13)} Add period</button>
+  <button class="btn primary" onclick="saveTT()">${icn(I.check,13)} Save timetable</button></div>
+ <div id="slotedit">${slotEditor()}</div>`;}
+function defaultSlots(){const out=[];let h=8,mi=0;
+ for(let p=1;p<=8;p++){const st=`${String(h).padStart(2,"0")}:${String(mi).padStart(2,"0")}`;
+  mi+=40;h+=Math.floor(mi/60);mi%=60;const en=`${String(h).padStart(2,"0")}:${String(mi).padStart(2,"0")}`;
+  out.push({day:"Monday",period_no:p,start_time:st,end_time:en});}
+ return out;}
+function periods(){const map={};S.tt.slots.forEach(s=>{if(!map[s.period_no])map[s.period_no]={period_no:s.period_no,start_time:s.start_time,end_time:s.end_time};});
+ const ps=Object.values(map).sort((a,b)=>a.period_no-b.period_no);
+ return ps.length?ps:Array.from({length:S.tt.periods_per_day||8},(_,i)=>({period_no:i+1,start_time:"",end_time:""}));}
+function slotAt(day,p){return S.tt.slots.find(s=>s.day===day&&s.period_no===p&&(s.course||s.subject));}
+function ttGrid(edit){const ps=periods();
+ return `<div class="ttwrap"><table class="tt"><thead><tr><th style="text-align:right">Time</th>${DAYS.map(d=>`<th>${d.slice(0,3)}</th>`).join("")}${edit?"<th></th>":""}</tr></thead><tbody>
+ ${ps.map(p=>`<tr><td class="time">
+   ${edit?`<input value="${esc(p.start_time||"")}" onchange="setPeriodTime(${p.period_no},'start_time',this.value)">–<input value="${esc(p.end_time||"")}" onchange="setPeriodTime(${p.period_no},'end_time',this.value)">`
+   :`${esc((p.start_time||"").slice(0,5))} – ${esc((p.end_time||"").slice(0,5))}`}</td>
+  ${DAYS.map(d=>{const s=slotAt(d,p.period_no);const sel=S.selSlot&&S.selSlot.day===d&&S.selSlot.p===p.period_no;
+   const h=s?hue(s.course||s.subject):0;
+   return `<td class="slot ${s?"filled":""} ${sel?"sel":""}" ${edit?`onclick="S.selSlot={day:'${d}',p:${p.period_no}};render()"`:""}>
+    ${s?`<div class="in" style="background:hsl(${h} 75% 93%);color:hsl(${h} 55% 28%);border:1px solid hsl(${h} 55% 80%)">
+     <div class="s">${esc(s.subject||s.course)}</div>
+     ${s.topic_title?`<div class="t"><span class="tdot" style="background:var(--amber)"></span>${esc(s.topic_title)}</div>`:""}</div>`:""}</td>`;}).join("")}
+  ${edit?`<td><button class="btn danger" style="padding:4px 8px" onclick="event.stopPropagation();rmPeriod(${p.period_no})">✕</button></td>`:""}</tr>`).join("")}
+ </tbody></table></div>`;}
+function setPeriodTime(p,k,v){S.tt.slots.forEach(s=>{if(s.period_no===p)s[k]=v;});
+ if(!S.tt.slots.some(s=>s.period_no===p))S.tt.slots.push({day:"Monday",period_no:p,[k]:v});}
+function addPeriodRow(){const ps=periods();const last=ps[ps.length-1]||{period_no:0,end_time:"08:00"};
+ S.tt.slots.push({day:"Monday",period_no:last.period_no+1,start_time:last.end_time||"",end_time:""});render();}
+function rmPeriod(p){S.tt.slots=S.tt.slots.filter(s=>s.period_no!==p);if(S.selSlot&&S.selSlot.p===p)S.selSlot=null;render();}
+function slotEditor(){if(!S.selSlot)return "";const {day,p}=S.selSlot;
+ const cur=S.tt.slots.find(s=>s.day===day&&s.period_no===p)||{};
+ const courses=(S.programs.find(x=>x.name===cur.programX)||{}).courses||S.programs.flatMap(x=>x.courses);
+ const topics=(S.curr&&S.curr.topics)||[];
+ return `<section class="panel" style="margin-top:14px"><h2>${icn(I.grid)} ${day} · Period ${p} · ${esc(S.ttGroup)}</h2>
+  <div class="row3">
+   <div class="field"><label>Course</label><select id="sl_c">${`<option value="">— none —</option>`+[...new Set(courses)].map(c=>`<option ${cur.course===c?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
+   <div class="field"><label>Subject label (optional)</label><input id="sl_s" value="${esc(cur.subject||"")}" placeholder="shown on the grid"></div>
+   <div class="field"><label>Curriculum topic (optional)</label><input id="sl_t" value="${esc(cur.topic_title||"")}" placeholder="e.g. Photosynthesis"></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+   <button class="btn primary" onclick="applySlot()">${icn(I.check,13)} Apply to slot</button>
+   <button class="btn danger" onclick="clearSlot()">${icn(I.trash,13)} Clear slot</button>
+   <button class="btn" onclick="S.selSlot=null;render()">Done</button></div>
+  <p class="hint">Link a curriculum topic to map the timetable to the scheme of work; save the timetable to persist.</p></section>`;}
+function applySlot(){const {day,p}=S.selSlot;const per=periods().find(x=>x.period_no===p)||{};
+ S.tt.slots=S.tt.slots.filter(s=>!(s.day===day&&s.period_no===p));
+ S.tt.slots.push({day,period_no:p,start_time:per.start_time,end_time:per.end_time,
+  course:$("#sl_c").value||null,subject:$("#sl_s").value||$("#sl_c").value||"",topic_title:$("#sl_t").value||null});
+ render();}
+function clearSlot(){const {day,p}=S.selSlot;S.tt.slots=S.tt.slots.filter(s=>!(s.day===day&&s.period_no===p));render();}
+async function saveTT(){try{
+  if(!S.programs.length){try{S.programs=await api("programs");}catch(e){}}
+  S.tt=await api("timetable_save",{student_group:S.ttGroup,slots:JSON.stringify(S.tt.slots),
+   periods_per_day:periods().length});toast("Timetable saved");render();}catch(e){toast(e.message,"err");}}
+/* =============== people (enrollment + guardians) =============== */
+async function vPeople(){const m=$("#mainview");
+ m.innerHTML=`<div class="head"><div><h1>People</h1><p>Student enrollment per term (Program Enrollment) and the guardians linked to each student.</p></div></div>
+ <div class="row3" style="max-width:760px;margin-bottom:16px">
+  <div class="field"><label>Program</label><select id="pp_p"><option value="">All</option></select></div>
+  <div class="field"><label>Academic Year</label><select id="pp_y"><option value="">All</option></select></div>
+  <div class="field"><label>Academic Term</label><select id="pp_t"><option value="">All</option></select></div></div>
+ <div id="pplist"><div class="skel" style="width:55%"></div></div>`;
+ if(!S.programs.length){try{S.programs=await api("programs");}catch(e){}}
+ if(!S.cal.years.length){try{S.cal=await api("academic_calendar");}catch(e){}}
+ $("#pp_p").innerHTML=`<option value="">All programs</option>`+S.programs.map(p=>`<option value="${esc(p.name)}">${esc(p.program_name||p.name)}</option>`).join("");
+ $("#pp_y").innerHTML=`<option value="">All years</option>`+S.cal.years.map(y=>`<option>${esc(y.name)}</option>`).join("");
+ $("#pp_t").innerHTML=`<option value="">All terms</option>`+S.cal.terms.map(t=>`<option value="${esc(t.name)}">${esc(t.name)}</option>`).join("");
+ const load=async()=>{$("#pplist").innerHTML=`<div class="skel" style="width:55%"></div>`;
+  try{const rows=await api("enrollment",{program:$("#pp_p").value||null,academic_year:$("#pp_y").value||null,academic_term:$("#pp_t").value||null});
+   $("#pplist").innerHTML=rows.length?rows.map(r=>`
+    <div class="card flex" onclick="showGuardians(this,'${esc(r.student)}')">
+     <div><h3 style="font-size:14.5px">${esc(r.student_name||r.student)}</h3>
+      <div class="m">${esc(r.program)} · ${esc(r.academic_year||"")}${r.academic_term?" · "+esc(r.academic_term):""}</div>
+      <div class="m" data-g style="display:none;margin-top:6px"></div></div>
+     <span class="chip blue">enrolled</span></div>`).join("")
+   :`<div class="empty"><div class="big">No enrollment found</div>Create Program Enrollments in Desk, or relax the filters.</div>`;}
+  catch(e){$("#pplist").innerHTML=`<div class="empty">${esc(e.message)}</div>`;}};
+ ["pp_p","pp_y","pp_t"].forEach(id=>$("#"+id).onchange=load);load();}
+async function showGuardians(card,student){const g=card.querySelector("[data-g]");
+ if(g.style.display!=="none"){g.style.display="none";return;}
+ g.style.display="block";g.textContent="Loading guardians…";
+ try{const rows=await api("guardians_of",{student});
+  g.innerHTML=rows.length?("👪 "+rows.map(r=>`${esc(r.guardian_name)} (${esc(r.relation||"guardian")}${r.email?", "+esc(r.email):""})`).join(" · ")):"No guardians linked to this student.";}
+ catch(e){g.textContent=e.message;}}
+/* =============== student & parent views =============== */
+async function vStudentLibrary(){const m=$("#mainview");
+ m.innerHTML=`<div class="head"><div><h1>My Learning</h1><p>Student notes, assessments and reading materials your teachers published.</p></div></div><div id="sl"><div class="skel" style="width:55%"></div></div>`;
+ try{S.lib=await api("library",{});}catch(e){$("#sl").innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}
+ const el=$("#sl");
+ if(S.lesson){el.innerHTML="";lessonView(el);return;}
+ el.innerHTML=S.lib.length?`<div class="lgrid">${S.lib.map(l=>`
+  <div class="card" onclick="openLesson('${l.name}')"><h3>${esc(l.topic)}</h3>
+   <div class="m" style="margin-bottom:8px">${esc(l.course)} · ${esc(l.term)}${l.week?` · Week ${l.week}`:""}</div>
+   <div style="display:flex;gap:5px;flex-wrap:wrap">${l.docs.student_notes?`<span class="chip blue">Student Notes</span>`:""}
+    ${l.materials.length?`<span class="chip green">${l.materials.length} materials</span>`:""}</div></div>`).join("")}</div>`
+ :`<div class="empty">${icn(I.book,28)}<div class="big">Nothing published yet</div>Your teachers' lessons will appear here.</div>`;}
+async function vHomeworkList(){const m=$("#mainview");
+ m.innerHTML=`<div class="head"><div><h1>Homework</h1><p>Submit your work and see grades & feedback.</p></div></div><div id="shw"><div class="skel" style="width:55%"></div></div>`;
+ let rows;try{rows=await api("homework_list",{});}catch(e){$("#shw").innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}
+ const el=$("#shw");
+ if(S.hwOpen){let h;try{h=await api("homework_detail",{name:S.hwOpen});}catch(e){el.innerHTML=esc(e.message);return;}
+  const mine=h.submissions[0]||{};const b=S.boot.branding;
+  el.innerHTML=`<div class="crumb"><a href="javascript:void(0)" onclick="S.hwOpen=null;render()">Homework</a><span class="sep">›</span><b style="color:var(--tx)">${esc(h.title)}</b></div>
+  <div class="grid2"><section><div class="page" style="min-height:200px"><div class="lh">${b.logo?`<img src="${esc(b.logo)}">`:""}
+    <div><div class="n">${esc(b.school_name||"")}</div><div class="d">Homework — ${esc(h.title)}${h.due_date?" — due "+esc(h.due_date):""}</div></div></div>
+   <div class="md">${md(h.content)}</div></div></section>
+  <section class="panel"><h2>${icn(I.send)} My submission</h2>
+   ${mine.status==="Graded"?`<p><span style="font-family:'Space Grotesk';font-weight:700;font-size:22px;color:var(--green)">${mine.score}/${mine.max_score}</span> <span class="chip green">graded</span></p>
+    ${mine.feedback?`<div style="border-left:3px solid var(--green);padding:8px 12px;margin:10px 0;font-size:13px;color:var(--tx2)">${esc(mine.feedback)}</div>`:""}`:""}
+   <div class="field"><label>Your answers</label><textarea id="myans" style="min-height:160px">${esc(mine.submission_text||"")}</textarea></div>
+   <button class="btn primary go" onclick="submitMine('${h.name}')">${icn(I.send,15)} Submit</button>
+  </section></div>`;return;}
+ el.innerHTML=rows.length?rows.map(h=>{const s=h.my_submission||{};
+  const over=h.due_date&&h.due_date<today()&&!(s.submission_text||"").trim();
+  const st=s.status==="Graded"?"graded":(s.submission_text||"").trim()?"submitted":over?"overdue":"pending";
+  const cls={graded:"green",submitted:"blue",overdue:"red",pending:"amber"}[st];
+  return `<div class="card flex" onclick="S.hwOpen='${h.name}';render()">
+   <div><h3>${esc(h.title)}</h3><div class="m">${esc(h.course)}${h.due_date?` · due ${esc(h.due_date)}`:""}</div></div>
+   <div class="right">${s.status==="Graded"?`<span class="chip green">${s.score}/${s.max_score}</span>`:""}<span class="chip ${cls}">${st}</span></div></div>`;}).join("")
+ :`<div class="empty">${icn(I.clip,28)}<div class="big">No homework yet</div></div>`;}
+async function submitMine(hw){try{await api("submit_homework",{homework:hw,text:$("#myans").value});toast("Submitted — good luck!");render();}catch(e){toast(e.message,"err");}}
+async function vMyTT(){const m=$("#mainview");
+ m.innerHTML=`<div class="head"><div><h1>My Timetable</h1><p>Weekly schedule from your student group(s).</p></div></div><div id="mtt"><div class="skel" style="width:55%"></div></div>`;
+ try{S.myTT=await api("my_timetable");}catch(e){$("#mtt").innerHTML=`<div class="empty">${esc(e.message)}</div>`;return;}
+ $("#mtt").innerHTML=S.myTT.length?S.myTT.map(tt=>{S.tt=tt;
+  return `<h2 style="margin:14px 0 10px">${icn(I.grid)} ${esc(tt.student_group)}</h2>${ttGrid(false)}`;}).join("")
+ :`<div class="empty"><div class="big">No timetable yet</div>Your teacher hasn't published a timetable for your group.</div>`;}
+/* =============== settings =============== */
+function vSettings(){$("#mainview").innerHTML=`<div class="head"><div><h1>Settings</h1><p>Branding and the Anthropic API key live in Desk for security.</p></div></div>
+ <div class="panel" style="max-width:620px"><h2>${icn(I.cog)} CC Settings (Desk)</h2>
+  <p class="hint" style="margin-top:0">School name, motto, address, logo, accent colour, the Anthropic API key and model are managed in the <b>CC Settings</b> single DocType — open it in Desk:</p>
+  <a class="btn primary" href="/app/cc-settings" target="_blank">${icn(I.cog,14)} Open CC Settings in Desk</a>
+  <p class="hint">The whole app is also linked to Desk: see the <b>Curriculum Classroom</b> workspace for every DocType (Curriculum, Lessons, Homework, Timetables) plus the Education module records it reads.</p></div>`;}
+window.go=go;window.openCourse=openCourse;window.saveCurr=saveCurr;window.extract=extract;
+window.topicPatch=topicPatch;window.autoPlan=autoPlan;window.prepFrom=prepFrom;window.generate=generate;
+window.openLesson=openLesson;window.addMatFile=addMatFile;window.addMatLink=addMatLink;window.rmMat=rmMat;
+window.createHW=createHW;window.openHW=openHW;window.saveSub=saveSub;window.gradeSub=gradeSub;
+window.setPeriodTime=setPeriodTime;window.addPeriodRow=addPeriodRow;window.rmPeriod=rmPeriod;
+window.applySlot=applySlot;window.clearSlot=clearSlot;window.saveTT=saveTT;window.showGuardians=showGuardians;
+window.submitMine=submitMine;window.shiftM=shiftM;
+</script>
+<script>
+/* ============ UI/UX augment: extra icons, live details ============ */
+(function(){
+ I.target='<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>';
+ I.alert='<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>';
+ I.clock='<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
+ I.user='<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>';
+ window.IC=n=>I[n]||I[({clipboard:"clip"})[n]]||I.spark;
+ const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const D3=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date().getDay()];
+ let raf=0;
+ function scan(){raf=0;
+  document.querySelectorAll(".tt thead th").forEach(th=>{
+   if(th.textContent.trim()===D3)th.classList.add("isToday");});
+  const rc=document.querySelector(".rolechip");
+  if(rc&&!rc.dataset.init){const b=rc.querySelector("b");
+   rc.dataset.init=((b&&b.textContent)||"?").split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase();}
+  document.querySelectorAll(".stat .n:not([data-c])").forEach(el=>{el.dataset.c=1;
+   if(reduce)return;
+   const m=String(el.textContent).match(/^(\d+)(.*)$/);if(!m)return;
+   const end=+m[1],suf=m[2];if(end<=1)return;let t0=null;
+   const step=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/550,1);
+    el.textContent=Math.round(end*(1-Math.pow(1-p,3)))+suf;
+    if(p<1)requestAnimationFrame(step);else el.textContent=end+suf;};
+   requestAnimationFrame(step);});}
+ new MutationObserver(()=>{if(!raf)raf=requestAnimationFrame(scan);})
+  .observe(document.getElementById("app")||document.body,{childList:true,subtree:true});
+ scan();})();
+</script>
+</body>
+</html>

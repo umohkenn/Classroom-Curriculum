@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "topic_title",
+  "term",
+  "week_no",
+  "objectives",
+  "planned_date",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "topic_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Topic",
+   "reqd": 1
+  },
+  {
+   "fieldname": "term",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Term",
+   "options": "\nFirst Term\nSecond Term\nThird Term"
+  },
+  {
+   "fieldname": "week_no",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Week"
+  },
+  {
+   "fieldname": "objectives",
+   "fieldtype": "Small Text",
+   "label": "Objectives"
+  },
+  {
+   "fieldname": "planned_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Planned Date"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nCompleted"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Curriculum Classroom",
+ "name": "CC Curriculum Topic",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
